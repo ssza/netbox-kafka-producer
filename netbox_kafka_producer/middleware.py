@@ -1,5 +1,6 @@
 import confluent_kafka
 import dictdiffer
+import os
 import re
 import socket
 import time
