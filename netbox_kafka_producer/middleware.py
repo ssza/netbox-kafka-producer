@@ -104,9 +104,14 @@ class KafkaChangeMiddleware:
         self.topic   = settings.KAFKA['TOPIC']
 
         self.producer = confluent_kafka.Producer({
-            'bootstrap.servers':       self.servers,
-            'request.required.acks':   1,
+            'bootstrap.servers': self.servers,
+            'request.required.acks': 1,
             'socket.keepalive.enable': True,
+            'security.protocol": 'SASL_PLAINTEXT',
+            'sasl.mechanism": 'SCRAM-SHA-512',
+            'sasl.username": os.environ.get('KAFKA_USER'),
+            'sasl.password": os.environ.get('KAFKA_PASS'),
+            'error_cb': error_callback,
         })
 
     def __call__(self, request):
